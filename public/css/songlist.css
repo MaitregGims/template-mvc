@@ -1,0 +1,30 @@
+* {
+    font-family: Arial;
+}
+h1 {
+    margin: 0;
+    text-align: center;
+}
+
+.delete {
+    color: red;
+}
+
+main {
+    background-color: lightgrey;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+body {
+    background-color: lightgrey;
+}
+
+.container {
+    background-color: lightseagreen;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 80%;
+    margin: 10px;
+}

@@ -20,11 +20,64 @@ class EntityManager extends Database
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function findallWithSingerName()
+    {
+        $sql = "
+            SELECT *
+            FROM chanson
+            INNER JOIN chanteur ON chanson.id_chanteur = chanteur.id_chanteur
+            INNER JOIN categorie ON chanson.id_categorie = categorie.id_categorie
+";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     public function findAll($table)
     {
         $sql = "SELECT * FROM $table";
         $stmt = $this->getConnection()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function findWithstart($title)
+    {
+        $sql = "
+            select * 
+            from chanson
+            INNER JOIN chanteur ON chanson.id_chanteur = chanteur.id_chanteur
+            INNER JOIN categorie ON chanson.id_categorie = categorie.id_categorie
+            where titre like :title
+            ";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(":title", $title);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteSong($id)
+    {
+        $sql = "DELETE FROM chanson WHERE id_chanson = :id";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function findWithArtistName($artist)
+    {
+        $sql = "
+        select *
+        from chanteur 
+        INNER JOIN chanson ON chanteur.id_chanteur = chanson.id_chanteur 
+        INNER JOIN categorie ON chanson.id_categorie = categorie.id_categorie 
+        where nom_chanteur like :artist; 
+            ";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(":artist", $artist);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

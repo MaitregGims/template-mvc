@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>stock musique</title>
+    <link rel="stylesheet" href="../../public/css/header.css">
+    <link rel="stylesheet" href="../../public/css/normalize.css">
+    <link rel="stylesheet" href="../../public/css/songlist.css">
+    <link
+            href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+            rel="stylesheet"
+    />
+</head>
+<body>
+<header>
+    <div class="icons">
+        <a href="/"><i class="ri-home-4-line"></i></a>
+        <a href="/songlist"><i class="ri-disc-fill"></i></a>
+        <a href="/addsong"><i class="ri-add-line"></i></a>
+    </div>
+</header>
+
+<main>
+    <form action="/results" method="post">
+        <label for="chanteur">chanteur</label>
+        <input type="text" id="chanteur" placeholder="artist name" name="artist">
+        <button>find</button>
+    </form>
+
+    <form action="/result" method="post">
+        <label for="chanson">titre chanson</label>
+        <input type="text" id="chanson" placeholder="song name" name="titre">
+
+        <button>find</button>
+    </form>
+
+    <form action="/songlist" method="post">
+        <input type="submit" value="reset filters" />
+    </form>
+
+
+    <h1>liste des chanson : </h1>
+    {% for chanson in song %}
+        <div class="container">
+            <ul id="navigation">
+                <h1>{{ chanson.titre }}</h1>
+                <li><p>id : {{ chanson.id_chanson }}</p></li>
+                {% if chanson.date == null %}
+                    <li><p>date : no data</p></li>
+                {% else %}
+                    <li><p>date : {{ chanson.date }}</p></li>
+                {% endif %}
+                <li><p>chanteur : {{ chanson.nom_chanteur }}</p></li>
+                <li><p>style musical : {{ chanson.libelle_categorie }}</p></li>
+
+            </ul>
+            <form action="/delete" method="post" onsubmit="return confirm('Voulez vous vraiment supprimer ?')">
+                <input class="delete" type="submit" value="delete"/>
+                <input type="hidden" name ="delete" value ="{{ chanson.id_chanson }}" />
+            </form>
+        </div>
+    {% endfor %}
+</main>
+
+
+
+</body>
+</html>
